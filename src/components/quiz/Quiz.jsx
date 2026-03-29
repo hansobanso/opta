@@ -19,7 +19,6 @@ Svara ENDAST med giltig JSON i detta format (inga backticks, ingen förklaring):
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
       'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-calls': 'true'
     },
