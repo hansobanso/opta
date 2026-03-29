@@ -21,7 +21,7 @@ Svara ENDAST med giltig JSON i detta format (inga backticks, ingen förklaring):
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
       'anthropic-version': '2023-06-01',
-    },
+      'anthropic-dangerous-direct-browser-calls': 'true',    },
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 800,
