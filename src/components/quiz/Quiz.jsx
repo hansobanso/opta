@@ -23,7 +23,7 @@ Svara ENDAST med giltig JSON i detta format (inga backticks, ingen förklaring):
       'anthropic-dangerous-direct-browser-calls': 'true'
     },
     body: JSON.stringify({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-opus-4-6',
       max_tokens: 800,
       messages: [{ role: 'user', content: prompt }]
     })
