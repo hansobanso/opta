@@ -89,7 +89,8 @@ Om du använder PubMed-källor, nämn dem kort i svaret. Håll svaren koncisa me
       'Content-Type': 'application/json',
       'x-api-key': ANTHROPIC_API_KEY,
       'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-calls': 'true',    },
+      'anthropic-dangerous-direct-browser-calls': 'true'
+    },
     body: JSON.stringify({
       model: 'claude-sonnet-4-6',
       max_tokens: 1024,
