@@ -64,7 +64,7 @@ export async function* streamChat(messages, courseId = null) {
 
   const systemPrompt = `Du är Opta, en klinisk kunskapsassistent för optometri byggd på Hannes Isakssons kursmaterial från Karolinska Institutet. Svara alltid på svenska. Var kliniskt precis och pedagogisk.${contextBlock ? '\n\nAnvänd nedanstående kontext:\n' + contextBlock : ''}`
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://opta-proxy.gymbanan.workers.dev/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ Svara ENDAST med giltig JSON i detta format (inga backticks, ingen förklaring):
   "explanation": "Förklaring till rätt svar..."
 }`
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://opta-proxy.gymbanan.workers.dev/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
