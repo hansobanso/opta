@@ -2,8 +2,6 @@ import { supabase } from './supabase'
 
 const ANTHROPIC_API_KEY = import.meta.env.VITE_ANTHROPIC_API_KEY
 
-// Generate embedding via Supabase edge function (we'll proxy through it)
-// For now we use a simple text search fallback
 export async function searchChunks(query, courseId = null, limit = 8) {
   try {
     const { data, error } = await supabase.rpc('search_chunks_text', {
@@ -25,12 +23,10 @@ export async function searchPubMed(query, maxResults = 5) {
     const searchData = await searchRes.json()
     const ids = searchData.esearchresult?.idlist || []
     if (!ids.length) return []
-
     const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids.join(',')}&retmode=json`
     const summaryRes = await fetch(summaryUrl)
     const summaryData = await summaryRes.json()
     const result = summaryData.result || {}
-
     return ids.map(id => ({
       id,
       title: result[id]?.title || '',
@@ -45,13 +41,7 @@ export async function searchPubMed(query, maxResults = 5) {
 }
 
 function isClinicalQuery(message) {
-  const keywords = [
-    'studie', 'forskning', 'evidens', 'behandling', 'diagnos', 'prognos',
-    'prevalens', 'incidens', 'klinisk', 'effekt', 'resultat', 'rön',
-    'litteratur', 'artikel', 'pubmed', 'senaste', 'ny forskning',
-    'myopi', 'glaukom', 'katarakt', 'makuladegeneration', 'keratokonus',
-    'kontaktlins', 'ortokera', 'refraktion', 'synfel', 'torra ögon'
-  ]
+  const keywords = ['studie','forskning','evidens','behandling','diagnos','prognos','prevalens','incidens','klinisk','effekt','resultat','rön','litteratur','artikel','pubmed','senaste','ny forskning','myopi','glaukom','katarakt','makuladegeneration','keratokonus','kontaktlins','ortokera','refraktion','synfel','torra ögon']
   const lower = message.toLowerCase()
   return keywords.some(k => lower.includes(k))
 }
@@ -64,24 +54,15 @@ export async function* streamChat(messages, courseId = null) {
 
   let contextBlock = ''
   if (chunks.length > 0) {
-    contextBlock += `\n\n## Kursmaterial (KI)\n`
-    chunks.forEach((c, i) => {
-      contextBlock += `[Källa ${i + 1}]: ${c.content}\n`
-    })
+    contextBlock += '\n\n## Kursmaterial (KI)\n'
+    chunks.forEach((c, i) => { contextBlock += `[Källa ${i + 1}]: ${c.content}\n` })
   }
   if (pubmedResults.length > 0) {
-    contextBlock += `\n\n## Aktuell forskning (PubMed)\n`
-    pubmedResults.forEach((p, i) => {
-      contextBlock += `[PubMed ${i + 1}]: ${p.title} – ${p.authors} (${p.year}), ${p.journal}\n`
-    })
+    contextBlock += '\n\n## Aktuell forskning (PubMed)\n'
+    pubmedResults.forEach((p, i) => { contextBlock += `[PubMed ${i + 1}]: ${p.title} – ${p.authors} (${p.year}), ${p.journal}\n` })
   }
 
-  const systemPrompt = `Du är Opta, en klinisk kunskapsassistent för optometri byggd på Hannes Isakssons kursmaterial från Karolinska Institutet.
-
-Svara alltid på svenska. Var kliniskt precis och pedagogisk. Hänvisa till källorna när du använder dem.
-${contextBlock ? 'Använd nedanstående kontext för att svara:' + contextBlock : ''}
-
-Om du använder PubMed-källor, nämn dem kort i svaret. Håll svaren koncisa men fullständiga.`
+  const systemPrompt = `Du är Opta, en klinisk kunskapsassistent för optometri byggd på Hannes Isakssons kursmaterial från Karolinska Institutet. Svara alltid på svenska. Var kliniskt precis och pedagogisk.${contextBlock ? '\n\nAnvänd nedanstående kontext:\n' + contextBlock : ''}`
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -116,7 +97,7 @@ Om du använder PubMed-källor, nämn dem kort i svaret. Håll svaren koncisa me
         if (data.type === 'content_block_delta' && data.delta?.text) {
           yield { type: 'text', text: data.delta.text }
         }
-      } catch { /* skip */ }
+      } catch { }
     }
   }
 }
