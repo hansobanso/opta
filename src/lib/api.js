@@ -83,7 +83,7 @@ ${contextBlock ? 'Använd nedanstående kontext för att svara:' + contextBlock 
 
 Om du använder PubMed-källor, nämn dem kort i svaret. Håll svaren koncisa men fullständiga.`
 
-  const response = await fetch('/anthropic/v1/messages', {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
