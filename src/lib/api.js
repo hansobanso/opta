@@ -73,28 +73,14 @@ export async function* streamChat(messages, courseId = null) {
       model: 'claude-opus-4-6',
       max_tokens: 1024,
       system: systemPrompt,
-      stream: true,
+      stream: false,
       messages: messages.map(m => ({ role: m.role, content: m.content }))
     })
   })
 
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
-
   yield { type: 'sources', chunks, pubmed: pubmedResults }
 
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    const text = decoder.decode(value)
-    const lines = text.split('\n').filter(l => l.startsWith('data: '))
-    for (const line of lines) {
-      try {
-        const data = JSON.parse(line.slice(6))
-        if (data.type === 'content_block_delta' && data.delta?.text) {
-          yield { type: 'text', text: data.delta.text }
-        }
-      } catch { }
-    }
-  }
+  const data = await response.json()
+  const text = data.content?.[0]?.text || 'Inget svar.'
+  yield { type: 'text', text }
 }
