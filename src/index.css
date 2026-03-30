@@ -529,3 +529,30 @@ body {
   0%, 60%, 100% { transform: translateY(0); }
   30% { transform: translateY(-5px); }
 }
+
+.msg-bubble.ai h1,
+.msg-bubble.ai h2,
+.msg-bubble.ai h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 10px 0 4px;
+  color: #1a1a18;
+}
+
+.msg-bubble.ai ul,
+.msg-bubble.ai ol {
+  padding-left: 18px;
+  margin: 6px 0;
+}
+
+.msg-bubble.ai li {
+  margin-bottom: 3px;
+}
+
+.msg-bubble.ai strong {
+  font-weight: 500;
+}
+
+.msg-bubble.ai p {
+  margin-bottom: 6px;
+}
