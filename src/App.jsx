@@ -5,11 +5,15 @@ import Quiz from './components/quiz/Quiz'
 import Notes from './components/notes/Notes'
 import PubMed from './components/pubmed/PubMed'
 import Material from './components/material/Material'
+import Login from './components/Login'
 import './index.css'
 
 export default function App() {
+  const [authed, setAuthed] = useState(!!localStorage.getItem('opta_auth'))
   const [activeNav, setActiveNav] = useState('chat')
   const [selectedCourse, setSelectedCourse] = useState(null)
+
+  if (!authed) return <Login onLogin={() => setAuthed(true)} />
 
   const renderMain = () => {
     switch (activeNav) {
