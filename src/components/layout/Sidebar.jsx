@@ -9,7 +9,7 @@ const NAV = [
   { id: 'material', label: 'Material', icon: <svg viewBox="0 0 16 16"><path d="M3 3h4v4H3zM9 3h4v4H9zM3 9h4v4H3zM9 9h4v4H9z"/></svg> },
 ]
 
-export default function Sidebar({ activeNav, setActiveNav, selectedCourse, setSelectedCourse }) {
+export default function Sidebar({ activeNav, setActiveNav, selectedCourse, setSelectedCourse, isOpen }) {
   const [courses, setCourses] = useState([])
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function Sidebar({ activeNav, setActiveNav, selectedCourse, setSe
   }, [])
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? ' open' : ''}`}>
       <div className="sidebar-logo">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0 16px' }}>
           <div style={{ position: 'relative', display: 'inline-block', lineHeight: 1 }}>
