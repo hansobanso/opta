@@ -21,8 +21,38 @@ export default function Sidebar({ activeNav, setActiveNav, selectedCourse, setSe
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
-        <h1>Opta</h1>
-        <p>Optometri kunskapsbas</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ position: 'relative', display: 'inline-block', lineHeight: 1 }}>
+            <span style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 36,
+              fontWeight: 300,
+              color: '#1a1a18',
+              lineHeight: 1,
+              display: 'block'
+            }}>O</span>
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -52%)',
+              width: 4,
+              height: 4,
+              borderRadius: '50%',
+              background: '#1a1a18'
+            }}/>
+          </div>
+          <div>
+            <div style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: 11,
+              letterSpacing: 4,
+              color: '#1a1a18',
+              fontWeight: 400
+            }}>OPTA</div>
+            <div style={{ fontSize: 10, color: '#aaa', marginTop: 1 }}>Optometri kunskapsbas</div>
+          </div>
+        </div>
       </div>
 
       <div className="nav-section">
