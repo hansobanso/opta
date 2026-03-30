@@ -25,7 +25,7 @@ export default function Sidebar({ activeNav, setActiveNav, selectedCourse, setSe
           <div style={{ position: 'relative', display: 'inline-block', lineHeight: 1 }}>
             <span style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 52,
+              fontSize: 38,
               fontWeight: 300,
               color: '#1a1a18',
               lineHeight: 1,
